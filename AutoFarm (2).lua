@@ -354,9 +354,11 @@ local function LuckyLoop()
             FireRemote("a")
             task.wait(0.3)
 
-            local lb = workspace.Camera:FindFirstChild("LuckyBlockContainer")
-            lb = lb and lb:FindFirstChild("02b")
-            if lb then SafeTP(lb) end
+            local spawns = workspace:FindFirstChild("GameArea")
+            spawns = spawns and spawns:FindFirstChild("BrainrotSpawns")
+            local zone   = spawns and spawns:FindFirstChild("12")
+            local spot   = zone and zone:FindFirstChild("9")
+            if spot then SafeTP(spot) end
             task.wait(0.4)
 
             FireRemote("2\t\003" .. targetId)
@@ -374,8 +376,8 @@ end
 -- // Build Window
 -- ============================================================
 local Window = Fluent:CreateWindow({
-    Title       = "Brainrot Farm",
-    SubTitle    = "Auto Collector",
+    Title       = "Nuke For Brainrots",
+    SubTitle    = "By Oorbits",
     TabWidth    = 160,
     Size        = UDim2.fromOffset(580, 540),
     Acrylic     = true,
@@ -386,7 +388,6 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
     Farm         = Window:AddTab({ Title = "Farm",          Icon = "sprout"   }),
     LuckyBlock   = Window:AddTab({ Title = "Lucky Block",   Icon = "gem"      }),
-    Upgrades     = Window:AddTab({ Title = "Upgrades",      Icon = "zap"      }),
     ShopUpgrades = Window:AddTab({ Title = "Shop Upgrades", Icon = "shopping-cart" }),
     Settings     = Window:AddTab({ Title = "Settings",      Icon = "settings" }),
 }
@@ -397,7 +398,7 @@ local Tabs = {
 
 Tabs.Farm:AddDropdown("BrainrotSelect", {
     Title       = "Brainrot Filter",
-    Description = "Pick brainrots to farm. Leave empty to farm all.",
+    Description = "Pick brainrots to farm.",
     Values      = BrainrotNames,
     Multi       = true,
     Default     = {},
@@ -411,7 +412,7 @@ Tabs.Farm:AddDropdown("BrainrotSelect", {
 
 Tabs.Farm:AddInput("LevelFilter", {
     Title       = "Level Filter",
-    Description = "Only farm brainrots at or above this level. 0 = all.",
+    Description = "",
     Default     = "0",
     Placeholder = "e.g. 100",
     Numeric     = true,
@@ -458,7 +459,7 @@ Tabs.Farm:AddToggle("AutoFloorToggle", {
 
 Tabs.Farm:AddToggle("AutoSpinToggle", {
     Title       = "Auto Spin",
-    Description = "Automatically spins for brainrots.",
+    Description = "Automatically spins.",
     Default     = false,
     Callback    = function(state)
         SpinEnabled = state
@@ -475,7 +476,7 @@ Tabs.Farm:AddToggle("AutoSpinToggle", {
 
 Tabs.Farm:AddToggle("AutoRebirthToggle", {
     Title       = "Auto Rebirth",
-    Description = "Automatically rebirths when available.",
+    Description = "Automatically rebirths.",
     Default     = false,
     Callback    = function(state)
         RebirthEnabled = state
@@ -497,7 +498,7 @@ Tabs.Farm:AddToggle("AutoRebirthToggle", {
 
 Tabs.Farm:AddToggle("CollectAllToggle", {
     Title       = "Auto Collect",
-    Description = "Auto collect from all stands on Floor 1–4.",
+    Description = "Auto collect.",
     Default     = false,
     Callback    = function(state)
         CollectEnabled = state
@@ -514,7 +515,7 @@ Tabs.Farm:AddToggle("CollectAllToggle", {
 
 Tabs.Farm:AddToggle("UpgradeAllToggle2", {
     Title       = "Auto Upgrade",
-    Description = "Automatically upgrades all brainrot stands on Floor 1–4.",
+    Description = "Automatically upgrades all brainrot.",
     Default     = false,
     Callback    = function(state)
         UpgradeEnabled = state
