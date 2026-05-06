@@ -200,7 +200,7 @@ end
 local function CollectLoop()
     while CollectEnabled do
         CollectAll()
-        task.wait(1)
+        task.wait(0.2)
     end
 end
 
@@ -230,7 +230,7 @@ end
 local function UpgradeLoop()
     while UpgradeEnabled do
         UpgradeAll()
-        task.wait(1)
+        task.wait(0.2)
     end
 end
 
@@ -240,7 +240,7 @@ end
 local function SpinLoop()
     while SpinEnabled do
         FireRemote("`\0")
-        task.wait(1)
+        task.wait(0.2)
     end
 end
 
@@ -250,7 +250,7 @@ end
 local function FloorLoop()
     while FloorEnabled do
         FireRemote(">")
-        task.wait(1)
+        task.wait(0.2)
     end
 end
 
@@ -294,22 +294,32 @@ local function FarmLoop()
 
         if targetId and FarmEnabled then
             FireRemote("a")
-            task.wait(0.3)
+            task.wait(0.1)
 
             local spawns = workspace:FindFirstChild("GameArea")
             spawns = spawns and spawns:FindFirstChild("BrainrotSpawns")
             local zone   = spawns and spawns:FindFirstChild("12")
             local spot   = zone and zone:FindFirstChild("9")
             if spot then SafeTP(spot) end
-            task.wait(0.4)
+            task.wait(0.1)
 
             FireRemote("2\t\003" .. targetId)
-            task.wait(0.4)
+            task.wait(0.1)
 
             FireRemote("b")
-            task.wait(0.5)
+            task.wait(0.1)
+
+            local base = GetPlayerBase()
+            if not base then return false end
+            Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+            HRP       = Character:WaitForChild("HumanoidRootPart")
+            local spawn = base:FindFirstChild("SpawnLocation") or base
+            SafeTP(spawn)
+            return true
+            end
+            task.wait(0.1)
         else
-            task.wait(1)
+            task.wait(0.1)
         end
     end
 end
