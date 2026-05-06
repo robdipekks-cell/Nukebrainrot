@@ -395,6 +395,32 @@ local Tabs = {
 -- // Farm Tab
 -- ============================================================
 
+Tabs.Farm:AddDropdown("BrainrotSelect", {
+    Title       = "Brainrot Filter",
+    Description = "Pick brainrots to farm. Leave empty to farm all.",
+    Values      = BrainrotNames,
+    Multi       = true,
+    Default     = {},
+    Callback    = function(selected)
+        FarmBrainrots = {}
+        for name, active in pairs(selected) do
+            if active then table.insert(FarmBrainrots, name) end
+        end
+    end,
+})
+
+Tabs.Farm:AddInput("LevelFilter", {
+    Title       = "Level Filter",
+    Description = "Only farm brainrots at or above this level. 0 = all.",
+    Default     = "0",
+    Placeholder = "e.g. 100",
+    Numeric     = true,
+    Finished    = false,
+    Callback    = function(value)
+        FarmMinLevel = tonumber(value) or 0
+    end,
+})
+
 Tabs.Farm:AddToggle("AutoFarmToggle", {
     Title    = "Auto Farm",
     Default  = false,
@@ -515,31 +541,6 @@ Tabs.Farm:AddButton({
     end,
 })
 
-Tabs.Farm:AddDropdown("BrainrotSelect", {
-    Title       = "Brainrot Filter",
-    Description = "Pick brainrots to farm. Leave empty to farm all.",
-    Values      = BrainrotNames,
-    Multi       = true,
-    Default     = {},
-    Callback    = function(selected)
-        FarmBrainrots = {}
-        for name, active in pairs(selected) do
-            if active then table.insert(FarmBrainrots, name) end
-        end
-    end,
-})
-
-Tabs.Farm:AddInput("LevelFilter", {
-    Title       = "Level Filter",
-    Description = "Only farm brainrots at or above this level. 0 = all.",
-    Default     = "0",
-    Placeholder = "e.g. 100",
-    Numeric     = true,
-    Finished    = false,
-    Callback    = function(value)
-        FarmMinLevel = tonumber(value) or 0
-    end,
-})
 
 -- ============================================================
 -- // Lucky Block Tab
@@ -563,18 +564,6 @@ Tabs.LuckyBlock:AddToggle("AutoLuckyToggle", {
     end,
 })
 
-Tabs.LuckyBlock:AddButton({
-    Title       = "Teleport to Base",
-    Description = "Instantly teleport to your base.",
-    Callback    = function()
-        if TeleportToBase() then
-            Fluent:Notify({ Title = "Teleport", Content = "Teleported to your base!", Duration = 2 })
-        else
-            Fluent:Notify({ Title = "Teleport", Content = "Could not find your base.", Duration = 2 })
-        end
-    end,
-})
-
 Tabs.LuckyBlock:AddDropdown("LuckySelect", {
     Title       = "Lucky Block Filter",
     Description = "Pick lucky blocks to open. Leave empty to open all.",
@@ -585,6 +574,18 @@ Tabs.LuckyBlock:AddDropdown("LuckySelect", {
         LuckySelected = {}
         for name, active in pairs(selected) do
             if active then table.insert(LuckySelected, name) end
+        end
+    end,
+})
+
+Tabs.LuckyBlock:AddButton({
+    Title       = "Teleport to Base",
+    Description = "Instantly teleport to your base.",
+    Callback    = function()
+        if TeleportToBase() then
+            Fluent:Notify({ Title = "Teleport", Content = "Teleported to your base!", Duration = 2 })
+        else
+            Fluent:Notify({ Title = "Teleport", Content = "Could not find your base.", Duration = 2 })
         end
     end,
 })
